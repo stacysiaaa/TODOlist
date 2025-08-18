@@ -1,13 +1,26 @@
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-renderTask();
-let inputText = document.querySelector(".input-text");
-let addBtn = document.querySelector(".btn-input-group");
-let inputTitle = document.querySelector(".input-title");
-let saveBtn = document.querySelector(".btn-save");
+const elements = {
+    inputText: document.querySelector(".input-text"),
+    addBtn: document.querySelector(".btn-input-group"),
+    inputTitle: document.querySelector(".input-title"),
+    saveBtn: document.querySelector(".btn-save"),
+    taskList: document.querySelector(".task-list"),
+}
 
-function renderTask() {
-    let taskList = document.querySelector(".task-list");
-    taskList.innerHTML = "";
+function init() {
+    renderTasks();
+    elements.addBtn.addEventListener("click", addTask);
+    elements.inputText.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            addTask();
+        }
+    });
+    changeBorder(elements.inputTitle);
+    changeBorder(elements.inputText);
+}
+
+function renderTasks() {
+    elements.taskList.innerHTML = "";
 
     tasks.forEach((task, index) => {
         const li = document.createElement("li");
@@ -21,7 +34,7 @@ function renderTask() {
         checkbox.checked = task.completed || false;
         checkbox.addEventListener("change", () => {
             task.completed = checkbox.checked;
-            saveTasks();
+            saveTasksToLocalStorage();
         });
 
 
@@ -41,16 +54,16 @@ function renderTask() {
         btnRemove.classList.add("btn-delete");
         btnRemove.addEventListener("click", function () {
             tasks.splice(index, 1);
-            renderTask();
-            saveTasks();
-        });
+            renderTasks();
+            saveTasksToLocalStorage();
+        })
 
         const btnEdit = document.createElement("button");
         btnEdit.textContent = "Edit";
         btnEdit.classList.add("btn-edit");
         btnEdit.addEventListener("click", function () {
-            inputText.value = task.text;
-            inputTitle.value = task.title;
+            elements.inputText.value = task.text;
+            elements.inputTitle.value = task.title;
         })
 
         li.appendChild(checkbox);
@@ -60,41 +73,38 @@ function renderTask() {
         li.appendChild(btnRemove);
         li.appendChild(btnEdit);
 
-        taskList.appendChild(li);
+        elements.taskList.appendChild(li);
     });
 }
 
-
-
-function addTask() {
-    let taskText = inputText.value.trim();
-    let taskTitle = inputTitle.value.trim();
-    let taskPriority=document.querySelector(".priority-select").value;
-
-
-    if (taskText !== "" && taskTitle !== "") {
-        tasks.push(
-            {title: taskTitle,
-                text: taskText,
-                priority:taskPriority,
-                completed: false,
-
-            });
-        renderTask();
-        inputText.value = "";
-        inputTitle.value = "";
-        saveTasks();
-    }
+function isValidInput() {
+    let taskText = elements.inputText.value.trim();
+    let taskTitle = elements.inputTitle.value.trim();
+    return taskText !== "" && taskTitle !== "";
 }
 
-addBtn.addEventListener("click", addTask);
-inputText.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        addTask();
-    }
-});
+function addTask() {
+    if (!isValidInput()) return
 
-function saveTasks() {
+    let taskPriority = document.querySelector(".priority-select").value;
+
+
+    tasks.push(
+        {
+            title: elements.inputTitle.value.trim(),
+            text: elements.inputText.value.trim(),
+            priority: taskPriority,
+            completed: false,
+
+        });
+    renderTasks();
+    elements.inputText.value = "";
+    elements.inputTitle.value = "";
+    saveTasksToLocalStorage();
+}
+
+
+function saveTasksToLocalStorage() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
@@ -103,5 +113,4 @@ function changeBorder(element) {
     element.addEventListener("blur", () => element.classList.remove("border-pink"))
 }
 
-changeBorder(inputTitle);
-changeBorder(inputText);
+init();
