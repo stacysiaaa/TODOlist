@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 700px;
+    padding: 20px;
+    background-color: #F8C8DC;
+    margin: 50px auto 0 auto;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 15px;
+
+}
+
+.container h1 {
+    color: ivory;
+}
+
+.row h1 {
+    text-align: center;
+}
+
+
+.input-text {
+    min-height: 100px;
+    min-width: 650px;
+    border: 3px solid lightyellow;
+    border-radius: 5px;
+    padding: 0 10px;
+    margin-bottom: 20px;
+    outline: none;
+}
+
+.input-title {
+    height: 40px;
+    min-width: 650px;
+    border: 3px solid lightyellow;
+    border-radius: 5px;
+    padding: 0 10px;
+    margin-bottom: 20px;
+    outline: none;
+}
+
+.border-pink {
+    border: 3px solid deeppink;
+    border-radius: 5px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.btn-input-group, .priority-select,.btn-save {
+    height: 40px;
+    background-color: deeppink;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    min-width: 100px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    outline: none;
+}
+
+.task-list {
+    list-style: none;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.task-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-left: 4px solid pink;
+    border-radius: 5px;
+    height: 50px;
+    background-color: beige;
+}
+
+
+.btn-delete {
+    background-color: #af2013;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+    min-width: 100px;
+
+}
+
+.btn-edit {
+    background-color: palevioletred;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+    min-width: 100px;
+}
