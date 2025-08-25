@@ -73,8 +73,13 @@ function renderTasks(list = tasks) {
             elements.inputTitle.value = task.title;
             elements.inputText.value = task.text;
             editIndex = index;
+            elements.saveBtn.style.display = "inline-block";
+            elements.addBtn.style.display = "none";
         });
 
+        if (task.completed) {
+            btnEdit.disabled = true;
+        }
         li.appendChild(checkbox);
         li.appendChild(priority);
         li.appendChild(titleSpan);
@@ -87,8 +92,54 @@ function renderTasks(list = tasks) {
 }
 
 function isValidInput() {
-    return elements.inputText.value.trim() !== "" && elements.inputTitle.value.trim() !== "";
+        let isValid = true;
+
+        elements.inputText.style.border = "";
+        elements.inputTitle.style.border = "";
+    elements.prioritySelect.style.border = "";
+    document.getElementById("errorText").innerText = "";
+        document.getElementById("errorTitle").innerText = "";
+        document.getElementById("errorPriority").innerText = "";
+
+        if (elements.inputText.value.trim() === "") {
+            elements.inputText.style.border = "2px solid red";
+            document.getElementById("errorText").innerText = "Add your text";
+            isValid = false;
+        }
+
+        if (elements.inputTitle.value.trim() === "") {
+            elements.inputTitle.style.border = "2px solid red";
+            document.getElementById("errorTitle").innerText = "Add your title";
+            isValid = false;
+        }
+
+        if(elements.prioritySelect.value === "") {
+            elements.prioritySelect.style.border = "2px solid red";
+            document.getElementById("errorPriority").innerText = "Select priority";
+            isValid = false;
+        }
+
+
+        return isValid;
+
+
+
 }
+
+function toggleAddButton() {
+    const allFilled =
+        elements.inputText.value.trim() !== "" &&
+        elements.inputTitle.value.trim() !== "" &&
+        elements.prioritySelect.value !== "";
+
+    elements.addBtn.disabled = !allFilled;
+}
+
+elements.inputText.addEventListener("input", toggleAddButton);
+elements.inputTitle.addEventListener("input", toggleAddButton);
+elements.prioritySelect.addEventListener("change", toggleAddButton);
+
+toggleAddButton();
 
 function addTask() {
     if (!isValidInput()) return;
@@ -102,10 +153,15 @@ function addTask() {
         completed: false,
     });
 
-    elements.inputTitle.value = "";
-    elements.inputText.value = "";
+    clearInputs();
     saveTasksToLocalStorage();
     renderTasks();
+}
+
+function clearInputs() {
+    elements.inputTitle.value = "";
+    elements.inputText.value = "";
+    elements.prioritySelect.value = "";
 }
 
 function saveEdit() {
@@ -123,8 +179,7 @@ function saveEdit() {
 
         tasks.splice(editIndex, 1, updatedTask);
 
-        elements.inputTitle.value = "";
-        elements.inputText.value = "";
+        clearInputs();
         editIndex = null;
 
         saveTasksToLocalStorage();
@@ -162,10 +217,15 @@ function changeBorder(element) {
 if (localStorage.getItem("theme") === "dark") {
     elements.container.classList.add("dark");
     elements.toggle.checked = true;
+    document.body.classList.add("dark");
+    elements.toggle.checked = true;
 }
+
+
 
 elements.toggle.addEventListener("change", () => {
     elements.container.classList.toggle("dark");
+    document.body.classList.toggle("dark");
     localStorage.setItem(
         "theme",
         elements.container.classList.contains("dark") ? "dark" : "light"

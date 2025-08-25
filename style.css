@@ -4,11 +4,17 @@
     box-sizing: border-box;
 }
 
+body{
+    background-color:#98FF98;
+        font-family: 'EB Garamond', serif;
+
+}
+
 
 .container {
     max-width: 700px;
     padding: 20px;
-    background-color: #F8C8DC;
+    background-color: #FF69B4;
     margin: 50px auto 0 auto;
     align-content: center;
     display: flex;
@@ -19,7 +25,12 @@
 }
 
 .container.dark {
-    background-color: #222;
+    background-color: #222222;
+}
+
+body.dark {
+    background-color:#66CC66;
+
 }
 
 .container h1 {
@@ -74,6 +85,22 @@ h1 {
     display: inline-block;
 
 }
+
+
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+#errorPriority {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    font-size: 12px;
+    color: red;
+    margin-top: 2px;
+}
+
 
 .priority-sort {
     margin-bottom: 20px;
@@ -180,3 +207,32 @@ li.completed .task-priority {
     padding: 5px 10px;
     min-width: 100px;
 }
+
+.btn-save {
+    display: none;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ff69b4;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    background-color: white;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+input[type="checkbox"]:hover {
+    border-color: deeppink;
+}
+
+input[type="checkbox"]:checked {
+    background-color: deeppink;
+    border-color: deeppink;
+}
+
+
